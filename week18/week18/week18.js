@@ -201,9 +201,9 @@ document.querySelector('.b-12').onclick = showEleven;
 //Подсказка: Для преобразования строки в объект используйте метод JSON.parse(). Для работы с массивом используйте циклы.
 
 const showTen = () => {
-	const arrayTenString = LocalStorage.getItem('arrayTen');
+	const arrayTenString = window.localStorage.getItem('arrayTen');
 	if (arrayTenString) {
-		//Ваш код
+		const arrayTen = JSON.parse(arrayTenString);
 		const resultElement = document.querySelector('.practicum13');
 		for (const key in arrayTen) {
 			const value = arrayTen[key];
@@ -214,7 +214,7 @@ const showTen = () => {
 	}
 };
 
-//добавьте слушатель события
+document.querySelector('.b-13').onclick = showTen;
 
 //*************************************************************************************************************************************************
 
@@ -223,9 +223,13 @@ const showTen = () => {
 //Подсказка: Для преобразования строки в объект используйте метод JSON.parse(). Для работы с массивом используйте циклы.
 
 const showNine = () => {
-	const arrayNineString = LocalStorage.getItem('arrayNine');
+	const arrayNineString = window.localStorage.getItem('arrayNine');
 	if (arrayNineString) {
-		//Ваш код
+		const arrayNine = JSON.parse(arrayNineString);
+		for (const key in arrayNine) {
+			const resultElement = document.querySelector('.practicum14');
+			resultElement.innerHTML += `${key} ${arrayNine[key]}<br>`;
+		}
 	} else {
 		console.log('Массив arrayNine не найден в Local Storage.');
 	}
@@ -239,7 +243,16 @@ document.querySelector('.b-14').addEventListener('click', showNine);
 //Создайте функцию showEight, которая при нажатии кнопки Задание 15 получит из Local Storage сохраннённый объект objectEight. Выведите в элемент с классом practicum15 в формате значение точка с запятой. Вызывается функция по кнопке Задание 15.
 
 const showEight = () => {
-	//Ваш код
+	const objectEightString = window.localStorage.getItem('objectEight');
+	if (objectEightString) {
+		const objectEight = JSON.parse(objectEightString);
+		for (const key in objectEight) {
+			const resultElement = document.querySelector('.practicum15');
+			resultElement.textContent += `${objectEight[key]}; `
+		}
+	} else {
+		console.log('Объект objectEight не найден в Local Storage.')
+	}
 };
 
 document.querySelector('.b-15').addEventListener('click', showEight);
@@ -250,7 +263,15 @@ document.querySelector('.b-15').addEventListener('click', showEight);
 //Создайте функцию showSeven, которая при нажатии кнопки Задание 16 получит из Local Storage сохраннённый объект objectSeven. Выведите в элемент с классом practicum16 строку: "В Лондоне живёт 8900000 человек", вместо названия города и числа жителей, используйте значения по ключу city и population соответственно. Вызывается функция по кнопке Задание 16.
 
 const showSeven = () => {
-	//Ваш код
+	const objectSevenString = window.localStorage.getItem('objectSeven');
+	if (objectSevenString) {
+		const objectSeven = JSON.parse(objectSevenString);
+		const resultElement = document.querySelector('.practicum16');
+		resultElement.textContent = `В ${objectSeven.city}е живёт ${objectSeven.population} человек`;
+		
+	} else {
+		console.log('Объект objectSeven не найден в Local Storage.')
+	}
 };
 
 document.querySelector('.b-16').addEventListener('click', showSeven);
@@ -261,7 +282,12 @@ document.querySelector('.b-16').addEventListener('click', showSeven);
 //Создайте функцию showSix, которая при нажатии кнопки Задание 17 получит из Local Storage сохраннённый объект objectSix. Выведите в элемент с классом practicum17 строку: "Привет! Я Алиса. Мне 30 лет.", вместо имени и возраста, используйте значения по ключу name и age соответственно. Вызывается функция по кнопке Задание 17.
 
 const showSix = () => {
-	//Ваш код
+	const objectSixString = window.localStorage.getItem('objectSix');
+	if (objectSixString) {
+		const objectSix = JSON.parse(objectSixString);
+		const resultElement = document.querySelector('.practicum17');
+		resultElement.textContent = `Привет! Я ${objectSix.name}. Мне ${objectSix.age} лет.`
+	}
 };
 
 document.querySelector('.b-17').addEventListener('click', showSix);
