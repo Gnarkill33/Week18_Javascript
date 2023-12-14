@@ -298,24 +298,27 @@ document.querySelector('.b-17').addEventListener('click', showSix);
 //Создайте функцию clearLocalStorage, которая очищает весь Local Storage. Вызывается функция по кнопке Задание 18.
 
 const clearLocalStorage = () => {
-	//Ваш код
+	window.localStorage.clear();
 	console.log('Local Storage очищен.');
 };
 
-//добавьте слушатель события
+document.querySelector('.b-18').onclick = clearLocalStorage;
 
 //*************************************************************************************************************************************************
 
 //Задание 19
 //Cоздана форма с одним поле ввода, в которое пользователь может вводить только числа. Создайте массив numbers. Когда пользователь нажимает кнопке Задание 19 число должно добавляться в массив. Массив должен сохраняться в Local Storage с ключем task19. Вызывается функция по кнопке Задание 19. Что произойдёт, если нажать на кнопке трижды?
 
+// Ответ: 3 раза добавится null
+
 let numbers = [];
 
 const addToNumbers = () => {
 	const numberInput = document.getElementById('numberInput');
 	const number = parseInt(numberInput.value);
-
-	//Ваш код
+	numbers.push(number);
+	const numbersJSON = JSON.stringify(numbers);
+	window.localStorage.setItem('task19', numbersJSON);
 };
 
 document.querySelector('.b-19').addEventListener('click', addToNumbers);
@@ -327,14 +330,16 @@ document.querySelector('.b-19').addEventListener('click', addToNumbers);
 
 const removeLastElement = () => {
 	if (numbers.length > 0) {
-		//Ваш код
+		numbers.pop();
+		const numbersJSON = JSON.stringify(numbers);
+		window.localStorage.setItem('task19', numbersJSON);
 		console.log('Последний элемент удален из массива numbers и сохранен в Local Storage.');
 	} else {
 		console.log('Массив numbers пуст.');
 	}
 };
 
-//добавьте слушатель события
+document.querySelector('.b-20').onclick = removeLastElement;
 
 //*************************************************************************************************************************************************
 
@@ -347,11 +352,11 @@ const addToCart = () => {
 	const product = productInput.value;
 
 	if (product.trim() !== '') {
-		let cartItems = LocalStorage.getItem('cartItems');
+		let cartItems = window.localStorage.getItem('cartItems');
 		cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
-
-		//Ваш код
-
+		cartItems.push(product);
+		let cartItemsJSON = JSON.stringify(cartItems);
+		window.localStorage.setItem('task21', cartItemsJSON);
 		console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`);
 	} else {
 		console.log('Введите название товара.');
@@ -367,7 +372,16 @@ document.querySelector('.b-21').addEventListener('click', addToCart);
 //Подсказка: необходимо проверить, существует ли значение и не является ли оно пустым. Это может вызвать ошибку, если cartItems не существует в Local Storage или является пустым.
 
 const removeFromCart = () => {
-	//Ваш код
+	const cartItems = window.localStorage.getItem('task21');
+	if (cartItems) {
+		const cartItemsNew = JSON.parse(cartItems);
+		console.log(cartItemsNew);
+		cartItemsNew.pop();
+		const cartItemsJSON = JSON.stringify(cartItemsNew);
+		console.log(cartItemsJSON);
+		// window.localStorage.setItem('cartItems', cartItemsJSON);
+	}
+	// cartItems = cartItems ? JSON.parse(cartItems) : [];
 };
 
 document.querySelector('.b-22').addEventListener('click', removeFromCart);
