@@ -347,23 +347,28 @@ document.querySelector('.b-20').onclick = removeLastElement;
 //Создайте функцию addToCart, которая при нажатии кнопки Задание 21 получает из Local Storage сохранённый массив cartItems. Затем добавляет новый элемент в массив, представляющий товар, введённый вами в поле ввода. Массив cartItems должен сохраняться в Local Storage с ключом task21. Вызывается функция по кнопке Задание 21.
 //Подсказка: необходимо проверить существует ли значение и не является пустым. Если значение в хранилище есть, то оно преобразуется из JSON в массив. В противном случае, устанавливается пустой массив.
 
+
 const addToCart = () => {
-	const productInput = document.getElementById('productInput');
+	const productInput = document.getElementById("productInput");
 	const product = productInput.value;
+  
+	if (product.trim() !== "") {
+	  let cartItems = window.localStorage.getItem("cartItems");
+	  cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
+  
+	  cartItems.push(product);
+	  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+	  console.log(
+		`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`
+	  );
 
-	if (product.trim() !== '') {
-		let cartItems = window.localStorage.getItem('cartItems');
-		cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
-		cartItems.push(product);
-		let cartItemsJSON = JSON.stringify(cartItems);
-		window.localStorage.setItem('task21', cartItemsJSON);
-		console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`);
 	} else {
-		console.log('Введите название товара.');
+	  console.log("Введите название товара.");
 	}
-};
-
-document.querySelector('.b-21').addEventListener('click', addToCart);
+  };
+  
+  document.querySelector(".b-21").addEventListener("click", addToCart);
 
 //*************************************************************************************************************************************************
 
@@ -372,19 +377,22 @@ document.querySelector('.b-21').addEventListener('click', addToCart);
 //Подсказка: необходимо проверить, существует ли значение и не является ли оно пустым. Это может вызвать ошибку, если cartItems не существует в Local Storage или является пустым.
 
 const removeFromCart = () => {
-	const cartItems = window.localStorage.getItem('task21');
+	let cartItems = localStorage.getItem("cartItems");
 	if (cartItems) {
-		const cartItemsNew = JSON.parse(cartItems);
-		console.log(cartItemsNew);
-		cartItemsNew.pop();
-		const cartItemsJSON = JSON.stringify(cartItemsNew);
-		console.log(cartItemsJSON);
-		// window.localStorage.setItem('cartItems', cartItemsJSON);
+	  cartItems = JSON.parse(cartItems);
+	  if (cartItems.length > 0) {
+		cartItems.pop();
+		localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  		console.log("Товар удален из корзины");
+	  } else {
+		console.log("Корзина пустая.");
+	  }
+	} else {
+	  console.log("Корзина пустая.");
 	}
-	// cartItems = cartItems ? JSON.parse(cartItems) : [];
-};
-
-document.querySelector('.b-22').addEventListener('click', removeFromCart);
+  };
+  
+  document.querySelector(".b-22").addEventListener("click", removeFromCart);
 
 //*************************************************************************************************************************************************
 
@@ -392,7 +400,21 @@ document.querySelector('.b-22').addEventListener('click', removeFromCart);
 //Создайте функцию showCart, которая при нажатии кнопки Задание 23 получает из Local Storage сохранённый массив cartItems. Выведите элементы массива в элемент с классом practicum23. Вызывается функция по кнопке Задание 23.
 
 const showCart = () => {
-	//Ваш код
+	let cartItems = window.localStorage.getItem('cartItems');
+	const container = document.querySelector('.practicum23');
+
+	if (cartItems) {
+		cartItems = JSON.parse(cartItems);
+		if (cartItems.length > 0) {
+			const cartElements = cartItems.map((item) => {
+			return `${item}`;})
+			container.innerHTML = cartElements.join(", ")
+	} else {
+		container.innerHTML = "Корзина пустая";
+	}
+} 	else {
+	container.innerHTML = "Корзина пустая";
+	}
 };
 
 document.querySelector('.b-23').addEventListener('click', showCart);
@@ -425,8 +447,10 @@ document.querySelector('.b-25').addEventListener('click', clearCart);
 //Задание 26
 //При загрузке страницы установите cookie с именем "username" и значением "Кот Учёный". Выведите сообщение в консоль, подтверждающее успешное создание cookie.
 
-//Ваш код
-console.log("Cookie 'username' установлен.");
+document.addEventListener("DOMContentLoaded", function (event) {
+	document.cookie = 'username=Кот Учёный';
+	console.log("Cookie 'username' установлен.");
+})
 
 //*************************************************************************************************************************************************
 
@@ -434,20 +458,21 @@ console.log("Cookie 'username' установлен.");
 //Допишите функцию getCookie, которая принимает имя cookie. Функция должна получать значение cookie с указанным именем, возвращать его и записывать в элемент с классом practicum27. Если cookie с указанным именем не найден, функция должна возвращать пустую строку. Вызывается функция по кнопке Задание 27. Выведите куку с именем "username".
 
 const getCookie = (name) => {
-	const cookieContainer = document.querySelector('.practicum27');
-	const cookies = document.cookie.split('; ');
+	const cookieContainer = document.querySelector(".practicum27");
+	const cookies = document.cookie.split("; ");
 	for (let i = 0; i < cookies.length; i++) {
-		const cookie = cookies[i].split('=');
-		if (cookie[0] === name) {
-			const value = cookie[1] || '';
-			//Ваш код
+	  const cookie = cookies[i].split("=");
+	  if (cookie[0] === name) {
+		const value = cookie[1] || "";
+		cookieContainer.textContent = value;
+		return value;
 		}
 	}
-	//Ваш код
+	cookieContainer.textContent = "";
 };
-
-document.querySelector('.b-27').addEventListener('click', () => {
-	getCookie('username');
+  
+  document.querySelector(".b-27").addEventListener("click", () => {
+	getCookie("username");
 });
 
 //*************************************************************************************************************************************************
@@ -457,15 +482,17 @@ document.querySelector('.b-27').addEventListener('click', () => {
 //Подсказка: используйте функцию getCookie
 
 const checkCookie = () => {
-	//Ваш код
+	const username = getCookie('username');
 	if (username !== '') {
-		//Ваш код
+		console.log(username);
 	} else {
-		//Ваш код
+		console.log("Cookie с именем 'username' не найден");
 	}
 };
 
-// добавьте слушатель события
+document.querySelector(".b-28").addEventListener("click", () => {
+	checkCookie();
+});
 
 //*************************************************************************************************************************************************
 
@@ -474,7 +501,7 @@ const checkCookie = () => {
 
 const setCookie = (name, value) => {
 	document.cookie = `${name}=${value}`;
-	//Ваш код
+	console.log(`Cookie с именем ${name} и значением ${value} установлено.`);
 };
 
 document.querySelector('.b-29').addEventListener('click', () => {
@@ -488,7 +515,7 @@ document.querySelector('.b-29').addEventListener('click', () => {
 
 const deleteCookie = (name) => {
 	document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-	//Ваш код
+	console.log(`Cookie с именем ${name} удалено`);
 };
 
 document.querySelector('.b-30').addEventListener('click', () => {
