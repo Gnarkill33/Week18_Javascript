@@ -348,27 +348,53 @@ document.querySelector('.b-20').onclick = removeLastElement;
 //Подсказка: необходимо проверить существует ли значение и не является пустым. Если значение в хранилище есть, то оно преобразуется из JSON в массив. В противном случае, устанавливается пустой массив.
 
 
-const addToCart = () => {
-	const productInput = document.getElementById("productInput");
-	const product = productInput.value;
+// const addToCart = () => {
+// 	const productInput = document.getElementById("productInput");
+// 	const product = productInput.value;
   
-	if (product.trim() !== "") {
-	  let cartItems = window.localStorage.getItem("cartItems");
-	  cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
+// 	if (product.trim() !== "") {
+// 	  let cartItems = window.localStorage.getItem("cartItems");
+// 	  cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
   
-	  cartItems.push(product);
-	  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
+// 	  cartItems.push(product);
+// 	  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
   
-	  console.log(
-		`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`
-	  );
+// 	  console.log(
+// 		`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`
+// 	  );
 
-	} else {
-	  console.log("Введите название товара.");
-	}
-  };
+// 	} else {
+// 	  console.log("Введите название товара.");
+// 	}
+//   };
   
-  document.querySelector(".b-21").addEventListener("click", addToCart);
+//   document.querySelector(".b-21").addEventListener("click", addToCart);
+
+
+const addToCart = () => { // создаю функцию, которую буду вызывать при нажатии на кнопку 
+    const productInput = document.getElementById('productInput'); // нахожу поле productInput
+    const product = productInput.value; // получаю значение, которое будет вводить пользователь
+
+    if (product.trim() !== '') { // делаю проверку на пробелы и пустые строки
+		if (window.localStorage.getItem('task21')) { // делаю проверку, есть ли в Local Storage task21
+			task21 = window.localStorage.getItem('task21'); // Получаем сохраненный массив task21
+			task21 = task21 ? JSON.parse(task21) : []; // Проверяем пустой или нет
+			task21.push(product); // Добавляем элемент в массив
+			let task21JSON = JSON.stringify(task21); // Преобразуем в JSON
+        	window.localStorage.setItem('task21', task21JSON); // Сохраняем в Local Storage
+        	console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`)
+		} else { // если task21 нет в Local Storage
+        let cartItems = window.localStorage.getItem('cartItems'); // получаем cartItems из Local Storage
+        cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
+        cartItems.push(product); // Добавляем элемент в массив
+        let cartItemsJSON = JSON.stringify(cartItems); // Преобразуем в JSON
+        window.localStorage.setItem('cartItems', cartItemsJSON);} // Сохраняем в Local Storage
+        console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`);
+    } else { // если ввели пустую строку
+        console.log('Введите название товара.');
+    }};
+
+document.querySelector(".b-21").addEventListener("click", addToCart);
 
 //*************************************************************************************************************************************************
 
@@ -461,8 +487,8 @@ const getCookie = (name) => {
 	const cookieContainer = document.querySelector(".practicum27");
 	const cookies = document.cookie.split("; ");
 	for (let i = 0; i < cookies.length; i++) {
-	  const cookie = cookies[i].split("=");
-	  if (cookie[0] === name) {
+	const cookie = cookies[i].split("=");
+	if (cookie[0] === name) {
 		const value = cookie[1] || "";
 		cookieContainer.textContent = value;
 		return value;
@@ -470,8 +496,8 @@ const getCookie = (name) => {
 	}
 	cookieContainer.textContent = "";
 };
-  
-  document.querySelector(".b-27").addEventListener("click", () => {
+
+document.querySelector(".b-27").addEventListener("click", () => {
 	getCookie("username");
 });
 
