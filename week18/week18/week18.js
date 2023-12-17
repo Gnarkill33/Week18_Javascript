@@ -347,50 +347,28 @@ document.querySelector('.b-20').onclick = removeLastElement;
 //Создайте функцию addToCart, которая при нажатии кнопки Задание 21 получает из Local Storage сохранённый массив cartItems. Затем добавляет новый элемент в массив, представляющий товар, введённый вами в поле ввода. Массив cartItems должен сохраняться в Local Storage с ключом task21. Вызывается функция по кнопке Задание 21.
 //Подсказка: необходимо проверить существует ли значение и не является пустым. Если значение в хранилище есть, то оно преобразуется из JSON в массив. В противном случае, устанавливается пустой массив.
 
+const addToCart = () => {  
+    const productInput = document.getElementById('productInput');
+    const product = productInput.value;
 
-// const addToCart = () => {
-// 	const productInput = document.getElementById("productInput");
-// 	const product = productInput.value;
-  
-// 	if (product.trim() !== "") {
-// 	  let cartItems = window.localStorage.getItem("cartItems");
-// 	  cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
-  
-// 	  cartItems.push(product);
-// 	  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  
-// 	  console.log(
-// 		`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`
-// 	  );
-
-// 	} else {
-// 	  console.log("Введите название товара.");
-// 	}
-//   };
-  
-//   document.querySelector(".b-21").addEventListener("click", addToCart);
-
-
-const addToCart = () => { // создаю функцию, которую буду вызывать при нажатии на кнопку 
-    const productInput = document.getElementById('productInput'); // нахожу поле productInput
-    const product = productInput.value; // получаю значение, которое будет вводить пользователь
-
-    if (product.trim() !== '') { // делаю проверку на пробелы и пустые строки
-		if (window.localStorage.getItem('task21')) { // делаю проверку, есть ли в Local Storage task21
-			task21 = window.localStorage.getItem('task21'); // Получаем сохраненный массив task21
-			task21 = task21 ? JSON.parse(task21) : []; // Проверяем пустой или нет
-			task21.push(product); // Добавляем элемент в массив
-			let task21JSON = JSON.stringify(task21); // Преобразуем в JSON
-        	window.localStorage.setItem('task21', task21JSON); // Сохраняем в Local Storage
-        	console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`)
-		} else { // если task21 нет в Local Storage
-        let cartItems = window.localStorage.getItem('cartItems'); // получаем cartItems из Local Storage
-        cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
-        cartItems.push(product); // Добавляем элемент в массив
-        let cartItemsJSON = JSON.stringify(cartItems); // Преобразуем в JSON
-        window.localStorage.setItem('cartItems', cartItemsJSON);} // Сохраняем в Local Storage
+    if (product.trim() !== '') { 
+		if (window.localStorage.getItem('task21')) {
+		task21 = window.localStorage.getItem('task21');
+		task21 = task21 ? JSON.parse(task21) : [];
+		task21.push(product);
+		let task21JSON = JSON.stringify(task21);
+        window.localStorage.setItem('task21', task21JSON); 
         console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`);
-    } else { // если ввели пустую строку
+		console.log(window.localStorage.getItem("task21"));
+		} else {
+        let cartItems = window.localStorage.getItem('cartItems');
+        cartItems = cartItems ? JSON.parse(cartItems) : []; //код из подсказки
+        cartItems.push(product);
+        let cartItemsJSON = JSON.stringify(cartItems);
+        window.localStorage.setItem('task21', cartItemsJSON);}
+        console.log(`Товар "${product}" добавлен в корзину и сохранен в Local Storage.`);
+		console.log(window.localStorage.getItem("cartItems"));
+    } else {
         console.log('Введите название товара.');
     }};
 
@@ -451,8 +429,17 @@ document.querySelector('.b-23').addEventListener('click', showCart);
 //Создайте функцию updateCartCount, которая при нажатии кнопки Задание 24 обновляет количество товаров в корзине. Получите из Local Storage сохранённый массив cartItems и выведите количество товаров в элемент с классом practicum24 (например: "Количество товаров в корзине 3"). Вызывается функция по кнопке Задание 24.
 
 const updateCartCount = () => {
-	//Ваш код
-};
+	let cartItems = window.localStorage.getItem('cartItems');
+	const container = document.querySelector('.practicum24');
+
+	if (cartItems) {
+		cartItems = JSON.parse(cartItems);
+		const cartItemsNumber = cartItems.length;
+		container.textContent = `Количество товаров в корзине: ${cartItemsNumber}`
+	} else {
+	container.textContent = "Корзина пустая";
+}
+}
 
 document.querySelector('.b-24').addEventListener('click', updateCartCount);
 
@@ -462,7 +449,7 @@ document.querySelector('.b-24').addEventListener('click', updateCartCount);
 //Создайте функцию clearCart, которая при нажатии кнопки Задание 25 очищает весь массив cartItems в Local Storage. Вызывается функция по кнопке Задание 25.
 
 const clearCart = () => {
-	//Ваш код
+	window.localStorage.removeItem('cartItems');
 	console.log('Корзина очищена.');
 };
 
