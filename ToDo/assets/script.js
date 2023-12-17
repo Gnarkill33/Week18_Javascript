@@ -11,4 +11,6 @@ function addTask () {
         li.textContent = inputField.value;
         taskContainer.append(li);
     }
+    inputField.value = "";
 } 
+
