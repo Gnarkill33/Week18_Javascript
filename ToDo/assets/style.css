@@ -18,7 +18,7 @@
     max-width:500px;
     background:white;
     margin: 100px auto 20px;
-    padding: 30px 20px 60px;
+    padding: 30px 20px 40px;
     border-radius: 20px;;
 }
 
@@ -86,4 +86,21 @@ li.checked{
 
 li.checked::before{
     background-image: url(images/checked.png);
+}
+
+
+.clear-button {
+    margin:0 auto;
+    display:block;
+    padding:10px;
+    border-radius: 10px;
+}
+
+.task-bin{
+    background-image:url(images/bin.png);
+    background-size: cover;
+    position:absolute;
+    width:20px;
+    height:20px;
+    right:0;
 }
